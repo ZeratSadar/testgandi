@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les solutions en cours{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div id="milieu">
+        <div class="titrecatevent">
+            <p>Les solutions en cours</p>
+        </div>
+        <div class="cont row">
+            {% if solutions %}
+                {% for solution in solutions %}
+                    <div id="indent{{ solution.id }}" class="col-md-12 sol-cont">    
+                        <h4 class="titre-news"><b>{{ solution.solNom }}</b></h4>
+                        <h6>{{ solution.solFonc }}</h6>
+                        <div class="row">
+                            <div class="col-md-4 imgsol"><img src="{{ asset(['media/solution/', solution.solLogo]|join) }}"></div>
+                            <div class="col-md-8 textnews">
+                                {{ solution.solDescrib|raw }}
+                                <a href="{{ solution.solLink }}"><p><b>Voir la solution</b></p></a>
+                            </div>
+                        </div>
+                        <div class="hr">
+                            <div class="sep"></div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h1 style="text-align: center;">La page est en construction</h1>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

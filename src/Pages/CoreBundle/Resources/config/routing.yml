@@ -1,0 +1,34 @@
+core_homepage:
+    path:     /
+    defaults: { _controller: "CoreBundle:Core:index" }
+    methods:  GET
+
+core_news:
+    path:     /news/
+    defaults: { _controller: "CoreBundle:Core:news" }
+    methods:  GET
+
+core_info:
+    path:     /comment-ca-marche
+    defaults: { _controller: "CoreBundle:Core:info" }
+    methods:  GET
+
+core_solution:
+    path:     /solutions-en-cours
+    defaults: { _controller: "CoreBundle:Core:solution" }
+    methods:  GET
+
+core_event:
+    path:     /evenements
+    defaults: { _controller: "CoreBundle:Core:event" }
+    methods:  GET
+
+core_media:
+    path:     /medias
+    defaults: { _controller: "CoreBundle:Core:media" }
+    methods:  GET
+
+core_commun:
+    path:     /communautes
+    defaults: { _controller: "CoreBundle:Core:commun" }
+    methods:  GET

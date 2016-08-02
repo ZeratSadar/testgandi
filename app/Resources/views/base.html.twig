@@ -1,13 +1,111 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta charset="utf-8">
+    <title>Marseille Solutions | {% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    {% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.png') }}" />
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <div id="rs">
+        <div class="cont">
+            <a href="https://www.facebook.com/marseille.solutions" target="_BLANK"><div id="fblogo"  title="Suivez nous sur Facebook">
+            </div></a>
+            <form action="//marseille-solutions.us11.list-manage.com/subscribe/post?u=949a3220da1a99eaf57a88e3d&amp;id=79805973b3" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                <div id="mc_embed_signup_scroll">       
+                    <a id="id-newsletter" style="display: block"><input value="Newsletter" id="newsletter-button" class="button" title="S'inscrire à la newsletter" type="button" onclick="toggle_div(this,'id-newsletter'); toggle_div(this,'id-validation');"></a>
+                    <a id="id-validation" style="display: none"><input type="submit" value="Valider" name="subscribe" id="newsletter-validation" class="button" title="Valider inscription à la newsletter"></a>
+                    <a><input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="adresse email" required></a>
+                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_949a3220da1a99eaf57a88e3d_79805973b3" tabindex="-1" value=""></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="menu">
+        <div class="cont">
+            <a href="{{ path('core_homepage') }}">
+                <div id="logoms" title="Index">
+                </div>
+            </a>
+            <div id="contbtn">
+            <div class="ssbtn">
+                <a href="{{ path('core_info') }}">
+                    <div id="btm1" class="btnmenu">
+                        <p class="txtmenu">COMMENT ÇA MARCHE ?</p>
+                    </div>
+                </a>
+            </div>
+            <div class="ssbtn">
+                <a href="{{ path('core_solution') }}">
+                <div id="btm2" class="btnmenu">
+                    <p class="txtmenu">SOLUTIONS EN COURS</p>
+                </div>
+                </a>
+            </div>
+            <div class="ssbtn">
+                <a href="{{ path('core_event') }}">
+                <div id="btm3" class="btnmenu">
+                    <p class="txtmenu">ÉVÉNEMENTS</p>
+                </div>
+                </a>
+            </div>
+            <div class="ssbtn">
+                <a href="{{ path('core_media') }}">
+                <div id="btm4" class="btnmenu">
+                    <p class="txtmenu">MEDIAS</p>
+                </div>
+                </a>
+            </div>
+            <div class="ssbtn">
+                <a href="{{ path('core_commun') }}">
+                <div id="btm5" class="btnmenu">
+                    <p class="txtmenu">COMMUNAUTÉ</p>
+                </div>
+                </a>
+            </div>
+            </div>
+        </div>
+    </div>
+    {% block body %}{% endblock %}
+    <div id="footer">
+        <div class="cont">
+            <p id="footertxt">
+                Powered by  <a href="http://digone.io" target="blank">Digone</a> | <a href="mailto:margaux@marseille-solutions.fr">Contact</a> | <a href="https://www.facebook.com/marseille.solutions">Suivez nous sur les réseaux sociaux</a> |  {# <a href="{{ path('admin_homepage') }}">Admin</a> #}
+            </p>
+        </div>
+    </div>
+    {% block javascripts %}
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('js/script.js') }}"></script>
+        <script type="text/javascript">
+        $(function(){
+
+            $('[id^=newsletter-button]').click(function(e){
+                $('[id^=mce-EMAIL]').toggleClass('anim');                
+            });
+            
+        });
+        </script>
+        <script type="text/javascript">
+            function toggle_div(bouton, id) { // On déclare la fonction toggle_div qui prend en param le bouton et un id
+                var div = document.getElementById(id); // On récupère le div ciblé grâce à l'id
+                if(div.style.display=="none") 
+                {   // Si le div est masqué...
+                    div.style.display = "block"; // ... on l'affiche...
+                    bouton.innerHTML = "Annuler"; // ... et on change le contenu du bouton.
+                } 
+                else 
+                {   // S'il est visible...
+                    div.style.display = "none"; // ... on le masque...
+                    bouton.innerHTML = "Editer"; // ... et on change le contenu du bouton.
+                }
+            }
+        </script>
+    {% endblock %}
+</body>
 </html>

@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les solutions en cours{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div id="milieu">
+        <div class="cont">
+            <div class="titrecatevent">
+                <p>événements à venir</p>
+            </div>
+            <div id="avenir">
+                {% for event in events %}
+                    {% if date(event.dates) >= date("now") %}
+                        <div class='eventcell'>
+                            <div id='num' class='bgevent model{{ cycle(['0', '1'], loop.index) }}' date="{{ event.dates|date('Y-m-d') }}">
+                                <div class='dateevent manudate'>
+                                    <p style="text-transform: capitalize;">{{ event.dates|localizeddate('full', 'none', null, null) }}</p>
+                                    <p class='titreevent' style="text-align: left;">{{ event.eventTitre }}</p>
+                                </div>
+                                <div class='ficheevent'>
+                                    <div class='fichephotoevent' style='background-image: url("{{ asset(['media/event/', event.eventImg]|join) }}"); background-size:cover; height: 300px;)'></div>
+                                    <div class='fichearticleevent'>
+                                        <div class='fichetexteevent'>
+                                            <div class="article-content">
+                                                {{ event.eventContenu|raw }}
+                                            </div>
+                                            <a href="#myModalf{{ event.id }}" role="button" data-toggle="modal" class="plus" id="num" title="En savoir plus">
+                                                <img src="{{ asset('media/plusbleu.svg') }}">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr">
+                            <div class="sep"></div>
+                        </div>
+                        <div class="modal fade modal-event" id="myModalf{{ event.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog modal-sol" role="document" style="max-width: 900px; width: 80vw;">
+                              <div class="modal-content">
+                                  <div class="modal-header" style='background-image:url("{{ asset(['media/event/', event.eventImg]|join) }}")'>
+                                    <button id="crux" type="button" class="close" data-dismiss="modal" aria-label="Annuler" style="opacity: 1;"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <h3 style="text-transform: capitalize;"><b>{{ event.dates|localizeddate('full', 'none', null, null) }}</b></h3><br>
+                                    <h4><b>{{ event.eventTitre }}</b></h4><br>
+                                    <div>{{ event.eventContenu|raw }}</div>
+                                  </div>
+                              </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <h1 style="text-align: center;">La page est en construction.</h1>
+                {% endfor %}
+            </div>
+            <div class="titrecatevent">
+                <p>événements passé</p>
+            </div>
+            <div id="passe">
+                {% for event in events %}
+                    {% if date(event.dates) < date("now") %}
+                        <div class='eventcell'>
+                            <div id='num' class='bgevent model{{ cycle(['0', '1'], loop.index) }}' date="{{ event.dates|date('Y-m-d') }}">
+                                <div class='dateevent manudate'>
+                                    <p style="text-transform: capitalize;">{{ event.dates|localizeddate('full', 'none', null, null) }}</p>
+                                    <p class='titreevent' style="text-align: left;">{{ event.eventTitre }}</p>
+                                </div>
+                                <div class='ficheevent'>
+                                    <div class='fichephotoevent' style='background-image: url("{{ asset(['media/event/', event.eventImg]|join) }}"); background-size:cover; height: 300px;)'></div>
+                                    <div class='fichearticleevent'>
+                                        <div class='fichetexteevent'>
+                                            <div class="article-content">
+                                                {{ event.eventContenu|raw }}
+                                            </div>
+                                            <a href="#myModalf{{ event.id }}" role="button" data-toggle="modal" class="plus" id="num" title="En savoir plus">
+                                                <img src="{{ asset('media/plusbleu.svg') }}">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr">
+                            <div class="sep"></div>
+                        </div>
+                        <div class="modal fade modal-event" id="myModalf{{ event.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog modal-sol" role="document" style="max-width: 900px; width: 80vw;">
+                              <div class="modal-content">
+                                  <div class="modal-header" style='background-image:url("{{ asset(['media/event/', event.eventImg]|join) }}")'>
+                                    <button id="crux" type="button" class="close" data-dismiss="modal" aria-label="Annuler" style="opacity: 1;"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <h3 style="text-transform: capitalize;"><b>{{ event.dates|localizeddate('full', 'none', null, null) }}</b></h3><br>
+                                    <h4><b>{{ event.eventTitre }}</b></h4><br>
+                                    <div>{{ event.eventContenu|raw }}</div>
+                                  </div>
+                              </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div> 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    $(function () { 
+        var maxL = 350;  
+        $('.article-content').each(function (i, div) {
+        
+        var text = $(div).text();
+        if(text.length > maxL) {
+            
+            var begin = text.substr(0, maxL),
+            end = text.substr(maxL);
+
+            $(div).html(begin)
+            .append($('<span class="readmore"/>').attr('title', 'Cliquer sur le titre pour lire la suite.').html('&nbsp;[...]'))                          
+        }     
+        });                    
+    })
+    </script>
+{% endblock %}

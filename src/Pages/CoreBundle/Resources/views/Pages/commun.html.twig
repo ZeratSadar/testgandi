@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les solutions en cours{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+<div id="milieu" class="pagecommu">
+	<div class="cont">
+		<img id="photocomu" src="{{ asset('media/commu.jpg') }}">
+	</div>
+	<div class="cont">
+		<div class="titre">
+			<div class="titrecatevent">
+            	<p>marseille solutions vu par...</p>
+        	</div>
+		</div>
+		<div class="row">
+			{% for commun in communs %}
+				<div class='bgfichecom fi-vp col-md-3 col-sm-4 col-xs-6'>
+					<a href="#myModalvp{{ commun.id }}" role="button" data-toggle="modal">
+						<div class='fichecom'>
+							<div class='bgimgfichecom im-vp bgtem'>
+								<div class='imgfichecom' style='background-image: url("{{ asset(['media/comm/vp/', commun.vpImg]|join) }}")'></div>
+							</div>
+							<div class='txtfichecom'>
+								<p class='titrefichecom'>{{ commun.vpPrenom }} {{ commun.vpNom }}</p>
+								{{ commun.vpFonc }}
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="modal fade modal-com" id="myModalvp{{ commun.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		            <div class="modal-dialog modal-vp" role="document" style="max-width: 900px; width: 80vw;">
+		              <div class="modal-content">
+		                  <div class="modal-header">
+		                  	<h3><b>{{ commun.vpPrenom }} {{ commun.vpNom }}</b>, {{ commun.vpFonc }}</h3>
+		                    <button id="crux" type="button" class="close" data-dismiss="modal" aria-label="Annuler" style="opacity: 1;"></button>
+		                  </div>
+		                  <div class="modal-body row">
+		                  	<div class="col-md-3 cont-vp-img">
+		                  		<img src="{{ asset(['media/comm/vp/', commun.vpImg]|join) }}">
+		                  	</div>
+		                    <div class="col-md-9">{{ commun.vpDescrib|raw }}</div>
+		                  </div>
+		              </div>
+		            </div>
+		        </div>
+		    {% else %}
+                <h1 style="text-align: center;">La page est en construction.</h1>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="cont">
+		<div class="titre">
+			<div class="titrecatevent">
+            	<p>nos partenaires</p>
+        	</div>	
+		</div>
+		<div class="row">
+			{% for partner in partners %}
+			<div class='bgfichecom fi-pa col-md-2 col-sm-3 col-xs-6'>
+				<a style="text-decoration:none;" href="{{ partner.paLien }}" target='blank'>
+					<div class='fichecomlogo' id='numP{{ partner.id }}'>
+						<div class='bgimgfichecom im-pa bglogo'>
+							<div class='imgfichecom' style='background-image: url("{{ asset(['media/comm/pa/', partner.paLogo]|join) }}")' alt="{{ partner.paPartner }}'] ?>">
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="cont">
+		<div class="titre">
+			<div class="titrecatevent">
+            	<p>L'équipe de propulseurs</p>
+        	</div>	
+		</div>
+		<div class="row">
+			{% for equipe in equipes %}
+			<div class='bgfichecom fi-eq col-md-3 col-sm-4 col-xs-6'>
+				<a href="#myModaleq{{ equipe.id }}" role="button" data-toggle="modal">
+					<div class='fichecom'>
+						<div class='bgimgfichecom im-eq bgequip'>
+							<div class='imgfichecom' style='background-image: url("{{ asset(['media/comm/eq/', equipe.eqAva]|join) }}")'>
+							</div>
+						</div>
+						<div class='txtfichecom'>
+							<p class='titrefichecom'>{{ equipe.eqPrenom }} {{ equipe.eqNom }}</p>
+							{{ equipe.eqPoste }}
+						</div>
+					</div>
+				</a>
+			</div>	
+			<div class="modal fade modal-com" id="myModaleq{{ equipe.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	            <div class="modal-dialog modal-eq" role="document" style="max-width: 900px; width: 80vw;">
+	              <div class="modal-content">
+	                  <div class="modal-header">
+	                  	<h3><b>{{ equipe.eqPrenom }} {{ equipe.eqNom }}</b>, {{ equipe.eqPoste }}</h3>
+	                    <button id="crux" type="button" class="close" data-dismiss="modal" aria-label="Annuler" style="opacity: 1;"></button>
+	                  </div>
+	                  <div class="modal-body row">
+	                  	<div class="col-md-3 cont-eq-img">
+	                  		<img src="{{ asset(['media/comm/eq/', equipe.eqAva]|join) }}">
+	                  	</div>
+	                    <div class="col-md-9">{{ equipe.eqBio|raw }}</div>
+	                  </div>
+	              </div>
+	            </div>
+	        </div>			
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les Médias en parlent{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div id="milieu">
+        <div class="cont">
+            <div class="titrecatevent">
+                <p>Médias</p>
+            </div>
+            <div id="avenir">
+                {% for medium in media %}
+                    <div class='eventcell'>
+                        <div class='bgmedia model{{ cycle(['0', '1'], loop.index) }}' date="{{ medium.dates|date('Y-m-d') }}">
+                            <div class='dateevent manudate'>
+                                <p>Article du {{ medium.dates|localizeddate('none', 'none', null, null, 'd MMMM y') }}</p>
+                                <p class='titreevent' style="text-align: left;">{{ medium.mediaTitre }}</p>
+                            </div>
+                            {% if cycle(['0', '1'], loop.index) %}
+                                <div class="row">
+                                    <div class="col-md-5 imgsol"><img src="{{ asset(['media/media/', medium.mediaImg]|join) }}"></div>
+                                    <div class="col-md-7 textnews">
+                                        <div class="article-content">{{ medium.mediaDescrib|raw }}</div><br>
+                                        <a href="{{ asset(['media/media/', medium.mediaFile]|join) }}" target="blank" title="En savoir plus">
+                                            Voir l'article
+                                        </a>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="row">
+                                    <div class="col-md-7 textnews">
+                                        <div class="article-content">{{ medium.mediaDescrib|raw }}</div><br>
+                                        <a href="{{ asset(['media/media/', medium.mediaFile]|join) }}" target="blank" title="En savoir plus">
+                                            Voir l'article
+                                        </a>
+                                    </div>
+                                    <div class="col-md-5 imgsol"><img src="{{ asset(['media/media/', medium.mediaImg]|join) }}"></div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="hr">
+                            <div class="sep"></div>
+                        </div>
+                    </div>
+                {% else %}
+                    <h1 style="text-align: center;">La page est en construction.</h1>
+                {% endfor %}
+            </div>
+        </div>
+    </div> 
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    $(function () { 
+        var maxL = 350;  
+        $('.article-content').each(function (i, div) {
+        
+        var text = $(div).text();
+        if(text.length > maxL) {
+            
+            var begin = text.substr(0, maxL),
+            end = text.substr(maxL);
+
+            $(div).html(begin)
+            .append($('<span class="readmore"/>').attr('title', 'Cliquer sur le titre pour lire la suite.').html('&nbsp;[...]'))                          
+        }     
+        });                    
+    })
+    </script>
+{% endblock %}

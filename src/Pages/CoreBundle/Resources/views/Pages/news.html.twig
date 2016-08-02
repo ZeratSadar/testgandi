@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}News{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div id="milieu">
+        <div class="titrecatevent">
+            <p>News</p>
+        </div>
+        <div class="cont row">
+            {% for news in news %}
+                <div id="indent{{ news.id }}" class="col-md-12 news-cont">    
+                    <h4 class="titre-news">{{ news.slideTitre }}</h4>
+                    <div class="row">
+                        <div class="col-md-4 imgnews"><img src="{{ asset(['media/slider/', news.slideImage]|join) }}"></div>
+                        <div class="col-md-8 textnews">{{ news.slideNews|raw }}</div>
+                    </div>
+                    <div class="hr">
+                        <div class="sep"></div>
+                    </div>
+                </div>
+            {% else %}
+                <h1 style="text-align: center;">La page est en construction.</h1>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

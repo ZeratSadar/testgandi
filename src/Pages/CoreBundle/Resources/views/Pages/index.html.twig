@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Acceuil{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div id="milieu">
+        <div id="slideshow">
+            <div id="sContent">
+                {% for news in news %}
+                    <a href="{{ path('core_news') }}#indent{{ news.id }}">
+                        <div class='imgslider' style='background-image:url("{{ asset(['media/slider/', news.slideImage]|join) }}")'>
+                            <div class="txts">{{ news.slideTitre }}</div>
+                        </div>
+                    </a>
+                {% else %}
+                    <h1 style="text-align: center;">La page est en construction.</h1>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="contbtnslider">
+            <ul>
+                {% for news in news %}
+                    <li><div id="btns{{ loop.index0 }}" class="btnslider"></div></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

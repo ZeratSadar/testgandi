@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Comment ça marche{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% for info in infos %}
+        <div id="milieu" class="pagecomment">
+            <div class="titrecatevent">
+                <p>{{ info.buiTitre }}</p>
+            </div>
+            <div id="textcomment">{{ info.buiText|raw }}</div>
+            <div class="imgcomment">
+                <img src="{{ asset(['media/infog/', info.solImg]|join) }}">
+            </div>
+            <div class="imgcomment">
+                <img src="{{ asset(['media/infog/', info.buiImg]|join) }}">
+            </div>
+            <div class="ssbtn" id="btncomment">
+                <a href="#">
+                    <div class="btnmenu">
+                        <p class="txtmenu">VOIR LES SOLUTIONS</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
