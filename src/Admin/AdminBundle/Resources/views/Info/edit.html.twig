@@ -1,0 +1,144 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Comment ça marche-Edit{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">
+        Comment ça marche
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <i class="fa fa-dashboard"></i>  <a href="{{ path('admin_homepage') }}">Marseille Solutions</a>
+        </li>
+        <li class="active">
+            Modifier les deux infographies et le texte de la page "Comment ça marche" ?
+        </li>
+    </ol>
+    <p class="page-header">Modifier les infographie et le textes de la page "Comment ça marche ?". (modifier un élément remplacera l'ancien dans la base de donnée)</br> L'aperçu des images peut être déformé, mais cela n'affectera pas l'apparence finale de l'élément.</p>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Modifier les éléments</h3>
+                </div>
+                <div class="panel-body cont-visio row">
+                    <div class="visio visio-first">
+                        {{ form_start(edit_form) }}
+                            {{ form_errors(edit_form) }}
+                            <div class="col-md-6 col-sm-6">
+                                {{ form_label(edit_form.file, 'Infographie Solution') }}
+                                {{ form_errors(edit_form.file) }}
+                                <div class="cont-infog">
+                                    <img id="img-ava" style="width: 400;" src="{{ asset(['media/infog/', info.solImg]|join) }}"/>
+                                </div>
+                                {{ form_widget(edit_form.file) }}
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                {{ form_label(edit_form.fili, 'Infographie Buisness') }}
+                                {{ form_errors(edit_form.fili) }}
+                                <div class="cont-infog">
+                                    <img id="bui-ava" style="width: 400;" src="{{ asset(['media/infog/', info.buiImg]|join) }}"/>
+                                </div>
+                                {{ form_widget(edit_form.fili) }}
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 edit-titre">
+                                {{ form_label(edit_form.buiTitre, "Titre Buisness") }}
+                                {{ form_errors(edit_form.buiTitre) }}
+                                {{ form_widget(edit_form.buiTitre) }}
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 edit-ckeditor">
+                                {{ form_label(edit_form.buiText, 'Texte Buisness') }}
+                                {{ form_errors(edit_form.buiText) }}
+                                {{ form_widget(edit_form.buiText) }}
+                            </div>
+                            <div class="edit-footer" style="text-align: center !important;">
+                                <li><a href="{{ path('admin_info_edit', { 'id': info.id }) }}"><button type="button" class="btn btn-default">Annuler</button></a></li>
+                                <li><input class="btn btn-success" type="submit" value="Editer" /></li>
+                            </div>
+                        {{ form_end(edit_form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Contenu Actuel</h3>
+                </div>
+                <div class="panel-body row cont-visio">
+                    <div class="visio"> 
+                        <div class="col-lg-12">
+                            <h5>Infographie Solution</h5>
+                            <div class="cont-img-cc">
+                                <img class='apercucc' src="{{ asset(['media/infog/', info.solImg]|join) }}">
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <h5>Titre Buisness : </h5>
+                            <div class="titrecatevent">
+                                <p>{{ info.buiTitre }}</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 bui-text">
+                            <h5>Texte Buisness</h5>
+                            <p>{{ info.buiText|raw }}</p>
+                        </div>
+                        <div class="col-lg-12">
+                            <h5>Infographie Buisness : </h5>
+                            <div class="cont-img-cc">
+                                <img class='apercucc' src="{{ asset(['media/infog/', info.buiImg]|join) }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function(){
+            $(".img-new").change(function(){
+                readNewURL(this);
+            });    
+        }); 
+
+        function readNewURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img-ava').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            $(".bui-new").change(function(){
+                readNewURLFili(this);
+            });    
+        }); 
+
+        function readNewURLFili(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#bui-ava').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    </script>
+{% endblock %}

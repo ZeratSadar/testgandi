@@ -1,0 +1,19 @@
+admin_event_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:Event:index" }
+    methods:  [GET, POST]
+
+admin_event_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:Event:edit" }
+    methods:  [GET, POST]
+
+admin_event_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:Event:delete" }
+    methods:  DELETE
+
+admin_event_delete_form:
+    path:     /delete_form/{id}
+    defaults: { _controller: "AdminBundle:Event:delete_form" }
+    methods:  POST

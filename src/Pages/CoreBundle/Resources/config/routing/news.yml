@@ -1,0 +1,30 @@
+newwws:
+    path:     /
+    defaults: { _controller: "CoreBundle:News:index" }
+
+newwws_show:
+    path:     /{id}/show
+    defaults: { _controller: "CoreBundle:News:show" }
+
+newwws_new:
+    path:     /new
+    defaults: { _controller: "CoreBundle:News:new" }
+
+newwws_create:
+    path:     /create
+    defaults: { _controller: "CoreBundle:News:create" }
+    methods:  POST
+
+newwws_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "CoreBundle:News:edit" }
+
+newwws_update:
+    path:     /{id}/update
+    defaults: { _controller: "CoreBundle:News:update" }
+    methods:  [POST, PUT]
+
+newwws_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "CoreBundle:News:delete" }
+    methods:  [POST, DELETE]

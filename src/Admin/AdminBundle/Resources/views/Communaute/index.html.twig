@@ -1,0 +1,351 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Communauté{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">
+        Index - Communauté
+    </h1>
+    <h2 class="page-header">
+        Vu par ...
+        <div style="float:right;">
+            <a href="#myModalNewVp" role="button" data-toggle="modal"><button type="button" class="btn btn-success">Ajouter VP</button></a>
+        </div>
+    </h2>
+    <div class="row">
+        {% for commun in communs %}
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading heading-title">
+                        <h3 class="panel-title">Vu par {{ commun.vpPrenom }} {{ commun.vpNom }}</h3>
+                    </div>
+                    <div class="panel-body row">
+                        <div id="info{{ commun.id }}" class="info-cont">
+                            <div class="col-lg-5 col-md-5 col-sm-4">
+                                <img class='apercu' src="{{ asset(['media/comm/vp/', commun.vpImg]|join) }}">
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-8">
+                                <div class='apercutxt'><span><b>Fonction : </b></span>{{ commun.vpFonc }}</div>
+                                <div class='apercutxt'>{{ commun.vpDescrib|raw }}</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="btn-modif">
+                                <li><a href="{{ path('admin_commun_edit', { 'id': commun.id }) }}"><button type="button" class="btn btn-warning">Editer</button></a></li>
+                                {# <li>
+                                    <a style="display:block;" id="btnsuppr{{ commun.id }}" href="#myModalVp{{ commun.id }}" role="button" data-toggle="modal">
+                                        <button type="button" class="btn btn-danger">Supprimer</button>
+                                    </a>
+                                </li> #}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="modal fade modal-news-slide" id="myModalNewVp" tabindex="-1" role="dialog" aria-labelledby="myModalLabelNew">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Annuler"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabelNew">Ajouter le nouveau "Vu par ..."</h4>
+                    </div>
+                    {{ form_start(formc) }}
+                        {{ form_errors(formc) }}
+                        <div class="modal-body row">
+                            <div class="col-md-4 col-sm-6">
+                                {{ form_label(formc.file, 'Logo') }}
+                                {{ form_errors(formc.file) }}
+                                <img class='apercu' id="img-photo" style="height: 173px; margin-bottom: 5px;" src="{{ asset('media/logoms.jpg') }}"/>
+                                {{ form_widget(formc.file) }}
+                            </div>
+
+                            <div class="col-md-8 col-sm-6">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ form_label(formc.vpPrenom, 'Prénom') }}
+                                        {{ form_errors(formc.vpPrenom) }}
+                                        {{ form_widget(formc.vpPrenom) }}
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ form_label(formc.vpNom, 'Nom') }}
+                                        {{ form_errors(formc.vpNom) }}
+                                        {{ form_widget(formc.vpNom) }}
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ form_label(formc.vpFonc, 'Fonction') }}
+                                        {{ form_errors(formc.vpFonc) }}
+                                        {{ form_widget(formc.vpFonc) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12">
+                                {{ form_label(formc.vpDescrib, 'Commentaire') }}
+                                {{ form_errors(formc.vpDescrib) }}
+                                {{ form_widget(formc.vpDescrib) }}
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="text-align: center !important;">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                            <input type="submit"  name="ajouter" value="Ajouter" class="btn btn-primary">
+                        </div>
+                    {{ form_end(formc) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2 class="page-header">
+        Nos Partenaire ...
+        <div style="float:right;">
+            <a href="#myModalNewPa" role="button" data-toggle="modal"><button type="button" class="btn btn-success">Ajouter Partenaire</button></a>
+        </div>
+    </h2>
+    <div class="row">
+        {% for partner in partners %}
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading heading-title">
+                        <h3 class="panel-title">{{ partner.paPartner }} (Partenaire n°{{ loop.index }})</h3>
+                    </div>
+                    <div class="panel-body row">
+                        <div id="info{{ partner.id }}" class="info-cont">
+                            <div class="col-lg-5 col-md-5 col-sm-4">
+                                <img class='apercu' src="{{ asset(['media/comm/pa/', partner.paLogo]|join) }}">
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-8">
+                                <div class='apercutxt'><span><b>Lien : </b></span><a href="{{ partner.paLien }}" target="blank">{{ partner.paPartner }}</a></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="btn-modif">
+                                <li><a href="{{ path('admin_partner_edit', { 'id': partner.id }) }}"><button type="button" class="btn btn-warning">Editer</button></a></li>
+                                {# <li>
+                                    <a style="display:block;" id="btnsuppr{{ partner.id }}" href="#myModalPa{{ partner.id }}" role="button" data-toggle="modal">
+                                        <button type="button" class="btn btn-danger">Supprimer</button>
+                                    </a>
+                                </li> #}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="modal fade modal-news-slide" id="myModalNewPa" tabindex="-1" role="dialog" aria-labelledby="myModalLabelNew">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Annuler"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabelNew">Ajouter le nouveau partenaire</h4>
+                    </div>
+                    {{ form_start(formp) }}
+                        {{ form_errors(formp) }}
+                        <div class="modal-body row">
+                            <div class="col-md-4 col-sm-6">
+                                {{ form_label(formp.file, 'Logo') }}
+                                {{ form_errors(formp.file) }}
+                                <img class='apercu' id="img-logo" style="height: 173px; margin-bottom: 5px;" src="{{ asset('media/logoms.jpg') }}"/>
+                                {{ form_widget(formp.file) }}
+                            </div>
+
+                            <div class="col-md-8 col-sm-6">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ form_label(formp.paPartner, 'Partenaire') }}
+                                        {{ form_errors(formp.paPartner) }}
+                                        {{ form_widget(formp.paPartner) }}
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ form_label(formp.paLien, 'Lien') }}
+                                        {{ form_errors(formp.paLien) }}
+                                        {{ form_widget(formp.paLien) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="text-align: center !important;">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                            <input type="submit"  name="ajouter" value="Ajouter" class="btn btn-primary">
+                        </div>
+                    {{ form_end(formp) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2 class="page-header">
+        Notre Equipe
+        <div style="float:right;">
+            <a href="#myModalNewEq" role="button" data-toggle="modal"><button type="button" class="btn btn-success">Ajouter Equipe</button></a>
+        </div>
+    </h2>
+    <div class="row">
+        {% for equipe in equipes %}
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading heading-title">
+                        <h3 class="panel-title">{{ equipe.eqPrenom }} {{ equipe.eqNom }}</h3>
+                    </div>
+                    <div class="panel-body row">
+                        <div id="info{{ equipe.id }}" class="info-cont">
+                            <div class="col-lg-5 col-md-5 col-sm-4">
+                                <img class='apercu' src="{{ asset(['media/comm/eq/', equipe.eqAva]|join) }}">
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-8">
+                                <div class='apercutxt'><span><b>Poste : </b></span>{{ equipe.eqPoste }}</div>
+                                <div class='apercutxt'>{{ equipe.eqBio|raw }}</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="btn-modif">
+                                <li><a href="{{ path('admin_equipe_edit', { 'id': equipe.id }) }}"><button type="button" class="btn btn-warning">Editer</button></a></li>
+                                {# <li>
+                                    <a style="display:block;" id="btnsuppr{{ equipe.id }}" href="#myModalEq{{ equipe.id }}" role="button" data-toggle="modal">
+                                        <button type="button" class="btn btn-danger">Supprimer</button>
+                                    </a>
+                                </li> #}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>       
+        {% endfor %}
+        <div class="modal fade modal-news-slide" id="myModalNewEq" tabindex="-1" role="dialog" aria-labelledby="myModalLabelNew">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Annuler"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabelNew">Ajouter nouveau membre équipe</h4>
+                    </div>
+                    {{ form_start(forme) }}
+                        {{ form_errors(forme) }}
+                        <div class="modal-body row">
+                            <div class="col-md-4 col-sm-6">
+                                {{ form_label(forme.file, 'Avatar') }}
+                                {{ form_errors(forme.file) }}
+                                <img class='apercu' id="img-ava" style="height: 173px; margin-bottom: 5px;" src="{{ asset('media/logoms.jpg') }}"/>
+                                {{ form_widget(forme.file) }}
+                            </div>
+
+                            <div class="col-md-8 col-sm-6">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ form_label(forme.eqPrenom, 'Prénom') }}
+                                        {{ form_errors(forme.eqPrenom) }}
+                                        {{ form_widget(forme.eqPrenom) }}
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ form_label(forme.eqNom, 'Nom') }}
+                                        {{ form_errors(forme.eqNom) }}
+                                        {{ form_widget(forme.eqNom) }}
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ form_label(forme.eqPoste, 'Poste') }}
+                                        {{ form_errors(forme.eqPoste) }}
+                                        {{ form_widget(forme.eqPoste) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12">
+                                {{ form_label(forme.eqBio, 'Biographie') }}
+                                {{ form_errors(forme.eqBio) }}
+                                {{ form_widget(forme.eqBio) }}
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="text-align: center !important;">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                            <input type="submit"  name="ajouter" value="Ajouter" class="btn btn-primary">
+                        </div>
+                    {{ form_end(forme) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    $(function () {
+        var width = screen.width;
+        if(window.matchMedia("(min-width:992px)").matches && window.matchMedia("(max-width:1300px)").matches) { 
+            var maxL = 75;
+        }
+        else{
+            var maxL = 150;
+        }  
+        $('.apercutxt').each(function (i, div) {
+        
+        var text = $(div).text();
+        if(text.length > maxL) {
+            
+            var begin = text.substr(0, maxL),
+            end = text.substr(maxL);
+
+            $(div).html(begin)
+            .append($('<span class="readmore"/>').attr('title', 'Cliquer sur le titre pour lire la suite.').html('&nbsp;[...]'))                          
+        }     
+        });                    
+    })
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            $(".img-new").change(function(){
+                readVpNewURL(this);
+            });    
+        }); 
+
+        function readVpNewURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img-photo').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            $(".img-new").change(function(){
+                readPaNewURL(this);
+            });    
+        }); 
+
+        function readPaNewURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img-logo').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            $(".img-new").change(function(){
+                readEqNewURL(this);
+            });    
+        }); 
+
+        function readEqNewURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img-ava').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    </script>
+{% endblock %}

@@ -1,0 +1,19 @@
+admin_media_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:Media:index" }
+    methods:  [GET, POST]
+
+admin_media_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:Media:edit" }
+    methods:  [GET, POST]
+
+admin_media_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:Media:delete" }
+    methods:  DELETE
+
+admin_media_delete_form:
+    path:     /delete_form/{id}
+    defaults: { _controller: "AdminBundle:Media:delete_form" }
+    methods:  POST

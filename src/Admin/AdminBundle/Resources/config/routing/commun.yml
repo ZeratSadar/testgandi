@@ -1,0 +1,9 @@
+admin_commun_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:Commun:edit" }
+    methods:  [GET, POST]
+
+admin_commun_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:Commun:delete" }
+    methods:  DELETE

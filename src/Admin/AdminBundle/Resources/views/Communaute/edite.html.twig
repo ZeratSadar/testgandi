@@ -1,0 +1,84 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Equipe-Edit{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">
+        Edit - Equipe
+    </h1>
+
+    {{ form_start(edit_form) }}
+        {{ form_errors(edit_form) }}
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                {{ form_label(edit_form.file, 'Avatar') }}
+                {{ form_errors(edit_form.file) }}
+                <img class='apercu' id="img-ava" style="height: 173px; margin-bottom: 5px;" src="{{ asset(['media/comm/eq/', equipe.eqAva]|join) }}"/>
+                {{ form_widget(edit_form.file) }}
+            </div>
+
+            <div class="col-md-8 col-sm-6 edit-titre">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        {{ form_label(edit_form.eqPrenom, 'Prénom') }}
+                        {{ form_errors(edit_form.eqPrenom) }}
+                        {{ form_widget(edit_form.eqPrenom) }}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        {{ form_label(edit_form.eqNom, 'Nom') }}
+                        {{ form_errors(edit_form.eqNom) }}
+                        {{ form_widget(edit_form.eqNom) }}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        {{ form_label(edit_form.eqPoste, 'Poste') }}
+                        {{ form_errors(edit_form.eqPoste) }}
+                        {{ form_widget(edit_form.eqPoste) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-sm-12 edit-ckeditor">
+                {{ form_label(edit_form.eqBio, 'Biographie') }}
+                {{ form_errors(edit_form.eqBio) }}
+                {{ form_widget(edit_form.eqBio) }}
+            </div>
+        </div>
+        <div class="edit-footer" style="text-align: center !important;">
+            <li><a href="{{ path('admin_communaute_index') }}"><button type="button" class="btn btn-default">Annuler</button></a></li>
+            <li><input class="btn btn-success" type="submit" value="Editer" /></li>
+        </div>
+    {{ form_end(edit_form) }}
+        <div class="edit-footer" style="text-align: center !important; margin-top: -45px; float: right;">
+            <li>
+                {{ form_start(delete_form) }}
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                {{ form_end(delete_form) }}
+            </li>
+        </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function(){
+            $(".img-new").change(function(){
+                readNewURL(this);
+            });    
+        }); 
+
+        function readNewURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img-ava').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    </script>
+{% endblock %}

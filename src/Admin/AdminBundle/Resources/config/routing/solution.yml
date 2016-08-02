@@ -1,0 +1,19 @@
+admin_solution_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:Solution:index" }
+    methods:  [GET, POST]
+
+admin_solution_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:Solution:edit" }
+    methods:  [GET, POST]
+
+admin_solution_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:Solution:delete" }
+    methods:  DELETE
+
+admin_solution_delete_form:
+    path:     /delete_form/{id}
+    defaults: { _controller: "AdminBundle:Solution:delete_form" }
+    methods:  POST

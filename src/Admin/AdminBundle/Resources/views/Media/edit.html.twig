@@ -1,0 +1,77 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Médias-Edit{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">
+        Edit - Média
+    </h1>
+
+    {{ form_start(edit_form) }}
+        {{ form_errors(edit_form) }}
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                {{ form_label(edit_form.fili, 'Image') }}
+                {{ form_errors(edit_form.fili) }}
+                <img class='apercu' id="img-ava" style="height: 173px; margin-bottom: 5px;" src="{{ asset(['media/media/', medium.mediaImg]|join) }}"/>
+                {{ form_widget(edit_form.fili) }}
+            </div>
+
+            <div class="col-md-8 col-sm-6 edit-titre">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        {{ form_label(edit_form.mediaTitre, 'Titre du média') }}
+                        {{ form_errors(edit_form.mediaTitre) }}
+                        {{ form_widget(edit_form.mediaTitre) }}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        {{ form_label(edit_form.dates, 'Dates') }}
+                        {{ form_errors(edit_form.dates) }}
+                        {{ form_widget(edit_form.dates) }}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        {{ form_label(edit_form.file, 'Média') }}
+                        {{ form_errors(edit_form.file) }}
+                        {{ form_widget(edit_form.file) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-sm-12 edit-ckeditor">
+                {{ form_label(edit_form.mediaDescrib, 'Description') }}
+                {{ form_errors(edit_form.mediaDescrib) }}
+                {{ form_widget(edit_form.mediaDescrib) }}
+            </div>
+        </div>
+        <div class="edit-footer" style="text-align: center !important;">
+            <li><a href="{{ path('admin_media_index') }}"><button type="button" class="btn btn-default">Annuler</button></a></li>
+            <li><input class="btn btn-success" type="submit" value="Editer" /></li>
+        </div>
+    {{ form_end(edit_form) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function(){
+            $(".img-new").change(function(){
+                readNewURL(this);
+            });    
+        }); 
+
+        function readNewURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img-ava').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    </script>
+{% endblock %}

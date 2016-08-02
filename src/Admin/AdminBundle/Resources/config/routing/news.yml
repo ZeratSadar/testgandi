@@ -1,0 +1,19 @@
+admin_news_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:News:index" }
+    methods:  [GET, POST]
+
+admin_news_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:News:edit" }
+    methods:  [GET, POST]
+
+admin_news_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:News:delete" }
+    methods:  DELETE
+
+userrole_delete_form:
+    path:     /delete_form/{id}
+    defaults: { _controller: "AdminBundle:News:delete_form" }
+    methods:  POST

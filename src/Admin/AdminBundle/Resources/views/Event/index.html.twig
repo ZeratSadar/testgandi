@@ -1,0 +1,151 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Évènements{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">
+        Index - Évènements
+        <div style="float:right;">
+            <a href="#myModalNew" role="button" data-toggle="modal"><button type="button" class="btn btn-success">Ajouter Évènement</button></a>
+        </div>
+    </h1>
+    <div class="row">
+        {% for event in events %}
+            <div class="col-lg-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading heading-title">
+                        <h3 class="panel-title">{{ event.eventTitre }} (Évènement n°{{ loop.index }})</h3>
+                    </div>
+                    <div class="panel-body row">
+                        <div id="info{{ event.id }}" class="info-cont">
+                            <div class="col-lg-5 col-md-5 col-sm-4">
+                                <img class='apercu' src="{{ asset(['media/event/', event.eventImg]|join) }}">
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-8">
+                                <div class='apercutxt' style="text-transform: capitalize;"><span><b>Date : </b></span>{{ event.dates|localizeddate('full', 'none', null, null) }}</div>
+                                <div class='apercutxt'>{{ event.eventContenu|raw }}</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="btn-modif">
+                                <li><a href="{{ path('admin_event_edit', { 'id': event.id }) }}"><button type="button" class="btn btn-warning">Editer</button></a></li>
+                                <li>
+                                    <a style="display:block;" id="btnsuppr{{ event.id }}" href="#myModal{{ event.id }}" role="button" data-toggle="modal">
+                                        <button type="button" class="btn btn-danger">Supprimer</button>
+                                    </a>
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal suppression utilisateur-->
+            <div class="modal fade" id="myModal{{ event.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Annuler"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Confirmer la suppression de l'évènement n°{{ loop.index }} ?</h4>
+                        </div>
+                        <div class="modal-footer" style="text-align: center !important;">
+                            <div class="btn-modif">
+                                <li><button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button></li>
+                                <li>
+                                    {{ render(controller( 'AdminBundle:Event:delete_form', { 'id': event.id } )) }}
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="modal fade modal-news-slide" id="myModalNew" tabindex="-1" role="dialog" aria-labelledby="myModalLabelNew">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Annuler"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabelNew">Ajouter le nouvel évènement</h4>
+                    </div>
+                    {{ form_start(form) }}
+                        {{ form_errors(form) }}
+                        <div class="modal-body row">
+                            <div class="col-md-4 col-sm-6">
+                                {{ form_label(form.file, 'Image') }}
+                                {{ form_errors(form.file) }}
+                                <img class='apercu' id="img-ava" style="height: 173px; margin-bottom: 5px;" src="{{ asset('media/logoms.jpg') }}"/>
+                                {{ form_widget(form.file) }}
+                            </div>
+
+                            <div class="col-md-8 col-sm-6">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ form_label(form.eventTitre, "Titre de l'évènement") }}
+                                        {{ form_errors(form.eventTitre) }}
+                                        {{ form_widget(form.eventTitre) }}
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ form_label(form.dates, 'Dates') }}
+                                        {{ form_errors(form.dates) }}
+                                        {{ form_widget(form.dates) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12">
+                                {{ form_label(form.eventContenu, 'Évènement') }}
+                                {{ form_errors(form.eventContenu) }}
+                                {{ form_widget(form.eventContenu) }}
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="text-align: center !important;">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                            <input type="submit"  name="ajouter" value="Ajouter" class="btn btn-primary">
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    $(function () { 
+        var maxL = 350;  
+        $('.apercutxt').each(function (i, div) {
+        
+        var text = $(div).text();
+        if(text.length > maxL) {
+            
+            var begin = text.substr(0, maxL),
+            end = text.substr(maxL);
+
+            $(div).html(begin)
+            .append($('<span class="readmore"/>').attr('title', 'Cliquer sur le titre pour lire la suite.').html('&nbsp;[...]'))                          
+        }     
+        });                    
+    })
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            $(".img-new").change(function(){
+                readNewURL(this);
+            });    
+        }); 
+
+        function readNewURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img-ava').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    </script>
+{% endblock %}

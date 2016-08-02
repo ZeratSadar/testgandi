@@ -1,0 +1,9 @@
+admin_partner_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:Partner:edit" }
+    methods:  [GET, POST]
+
+admin_partner_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:Partner:delete" }
+    methods:  DELETE

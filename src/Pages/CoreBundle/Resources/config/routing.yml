@@ -1,3 +1,7 @@
+core_newwws:
+    resource: "@CoreBundle/Resources/config/routing/news.yml"
+    prefix:   /newwws
+
 core_homepage:
     path:     /
     defaults: { _controller: "CoreBundle:Core:index" }

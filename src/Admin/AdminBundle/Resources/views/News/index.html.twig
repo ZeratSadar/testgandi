@@ -1,0 +1,141 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}News{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">
+        Index - News
+        <div style="float:right;">
+            <a href="#myModalNew" role="button" data-toggle="modal"><button type="button" class="btn btn-success">Ajouter Slide</button></a>
+        </div>
+    </h1>
+    <div class="row">
+        {% for news in news %}
+            <div class="col-lg-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading heading-title">
+                        <h3 class="panel-title">{{ news.slideTitre }} (Slide n°{{ loop.index }})</h3>
+                    </div>
+                    <div class="panel-body row">
+                        <div id="info{{ news.id }}" class="info-cont">
+                            <div class="col-lg-5 col-md-5 col-sm-4">
+                                <img class='apercu' src="{{ asset(['media/slider/', news.slideImage]|join) }}">
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-8">
+                                <div class='apercutxt'>{{ news.slideNews|raw }}</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="btn-modif">
+                                <li><a href="{{ path('admin_news_edit', { 'id': news.id }) }}"><button type="button" class="btn btn-warning">Editer</button></a></li>
+                                <li>
+                                    <a style="display:block;" id="btnsuppr{{ news.id }}" href="#myModal{{ news.id }}" role="button" data-toggle="modal">
+                                        <button type="button" class="btn btn-danger">Supprimer</button>
+                                    </a>
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal suppression utilisateur-->
+            <div class="modal fade" id="myModal{{ news.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Annuler"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Confirmer la suppression de la news n°{{ loop.index }} ?</h4>
+                        </div>
+                        <div class="modal-footer" style="text-align: center !important;">
+                            <div class="btn-modif">
+                                <li><button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button></li>
+                                <li>
+                                    {{ render(controller( 'AdminBundle:News:delete_form', { 'id': news.id } )) }}
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="modal fade modal-news-slide" id="myModalNew" tabindex="-1" role="dialog" aria-labelledby="myModalLabelNew">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Annuler"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabelNew">Ajouter la nouvelle news</h4>
+                    </div>
+                    {{ form_start(form) }}
+                        {{ form_errors(form) }}
+                        <div class="modal-body row">
+                            <div class="col-md-4 col-sm-6">
+                                {{ form_label(form.file, 'Photo') }}
+                                {{ form_errors(form.file) }}
+                                <img class='apercu' id="img-ava" style="height: 173px; margin-bottom: 5px;" src="{{ asset('media/logoms.jpg') }}"/>
+                                {{ form_widget(form.file) }}
+                            </div>
+
+                            <div class="col-md-8 col-sm-6">
+                                {{ form_label(form.slideTitre, 'Titre') }}
+                                {{ form_errors(form.slideTitre) }}
+                                {{ form_widget(form.slideTitre) }}
+                            </div>
+
+                            <div class="col-md-12 col-sm-12">
+                                {{ form_label(form.slideNews, 'News') }}
+                                {{ form_errors(form.slideNews) }}
+                                {{ form_widget(form.slideNews) }}
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="text-align: center !important;">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                            <input type="submit"  name="ajouter" value="Ajouter" class="btn btn-primary">
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    $(function () { 
+        var maxL = 350;  
+        $('.apercutxt').each(function (i, div) {
+        
+        var text = $(div).text();
+        if(text.length > maxL) {
+            
+            var begin = text.substr(0, maxL),
+            end = text.substr(maxL);
+
+            $(div).html(begin)
+            .append($('<span class="readmore"/>').attr('title', 'Cliquer sur le titre pour lire la suite.').html('&nbsp;[...]'))                          
+        }     
+        });                    
+    })
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            $(".img-new").change(function(){
+                readNewURL(this);
+            });    
+        }); 
+
+        function readNewURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img-ava').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    </script>
+{% endblock %}

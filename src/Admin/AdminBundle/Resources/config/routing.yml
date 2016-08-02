@@ -1,0 +1,42 @@
+admin_homepage:
+    path:     /
+    defaults: { _controller: AdminBundle:Default:index }
+
+admin_news:
+    resource: "@AdminBundle/Resources/config/routing/news.yml"
+    prefix:   /news
+
+admin_info:
+    resource: "@AdminBundle/Resources/config/routing/info.yml"
+    prefix:   /comment-ca-marche
+
+admin_solution:
+    resource: "@AdminBundle/Resources/config/routing/solution.yml"
+    prefix:   /solutions
+
+admin_event:
+    resource: "@AdminBundle/Resources/config/routing/event.yml"
+    prefix:   /evenements
+
+admin_media:
+    resource: "@AdminBundle/Resources/config/routing/media.yml"
+    prefix:   /media
+
+admin_communaute_index:
+    path:     /communaute
+    defaults: { _controller: "AdminBundle:Communaute:index" }
+    methods:  [GET, POST]
+
+admin_commun:
+    resource: "@AdminBundle/Resources/config/routing/commun.yml"
+    prefix:   /vu_par
+
+admin_partner:
+    resource: "@AdminBundle/Resources/config/routing/partner.yml"
+    prefix:   /partenaires
+
+admin_equipe:
+    resource: "@AdminBundle/Resources/config/routing/equipe.yml"
+    prefix:   /equipe
+
+

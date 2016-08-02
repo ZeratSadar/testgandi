@@ -1,0 +1,157 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Médias{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">
+        Index - Médias
+        <div style="float:right;">
+            <a href="#myModalNew" role="button" data-toggle="modal"><button type="button" class="btn btn-success">Ajouter Média</button></a>
+        </div>
+    </h1>
+    <div class="row">
+        {% for medium in media %}
+            <div class="col-lg-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading heading-title">
+                        <h3 class="panel-title">{{ medium.mediaTitre }} (Média n°{{ loop.index }})</h3>
+                    </div>
+                    <div class="panel-body row">
+                        <div id="info{{ medium.id }}" class="info-cont">
+                            <div class="col-lg-5 col-md-5 col-sm-4">
+                                <img class='apercu' src="{{ asset(['media/media/', medium.mediaImg]|join) }}">
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-8">
+                                <div class='apercutxt' style="text-transform: capitalize;"><span><b>Date : </b></span>{{ medium.dates|localizeddate('full', 'none', null, null) }}</div>
+                                <div class='apercutxt'><span><b>Média : </b></span><a href="{{ asset(['media/media/', medium.mediaFile]|join) }}" target="blank">{{ medium.mediaTitre }}</a></div>
+                                <div class='apercutxt'>{{ medium.mediaDescrib|raw }}</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="btn-modif">
+                                <li><a href="{{ path('admin_media_edit', { 'id': medium.id }) }}"><button type="button" class="btn btn-warning">Editer</button></a></li>
+                                <li>
+                                    <a style="display:block;" id="btnsuppr{{ medium.id }}" href="#myModal{{ medium.id }}" role="button" data-toggle="modal">
+                                        <button type="button" class="btn btn-danger">Supprimer</button>
+                                    </a>
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal suppression utilisateur-->
+            <div class="modal fade" id="myModal{{ medium.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Annuler"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Confirmer la suppression du média n°{{ loop.index }} ?</h4>
+                        </div>
+                        <div class="modal-footer" style="text-align: center !important;">
+                            <div class="btn-modif">
+                                <li><button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button></li>
+                                <li>
+                                    {{ render(controller( 'AdminBundle:Media:delete_form', { 'id': medium.id } )) }}
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="modal fade modal-news-slide" id="myModalNew" tabindex="-1" role="dialog" aria-labelledby="myModalLabelNew">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Annuler"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabelNew">Ajouter le nouveau média</h4>
+                        </div>
+                        {{ form_start(form) }}
+                            {{ form_errors(form) }}
+                            <div class="modal-body row">
+                                <div class="col-md-4 col-sm-6">
+                                    {{ form_label(form.fili, 'Image') }}
+                                    {{ form_errors(form.fili) }}
+                                    <img class='apercu' id="img-ava" style="height: 173px; margin-bottom: 5px;" src="{{ asset('media/logoms.jpg') }}"/>
+                                    {{ form_widget(form.fili) }}
+                                </div>
+
+                                <div class="col-md-8 col-sm-6">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            {{ form_label(form.mediaTitre, "Titre du média") }}
+                                            {{ form_errors(form.mediaTitre) }}
+                                            {{ form_widget(form.mediaTitre) }}
+                                        </div>
+                                        <div class="col-md-12 col-sm-12">
+                                            {{ form_label(form.dates, 'Dates') }}
+                                            {{ form_errors(form.dates) }}
+                                            {{ form_widget(form.dates) }}
+                                        </div>
+                                        <div class="col-md-12 col-sm-12">
+                                            {{ form_label(form.file, 'Média') }}
+                                            {{ form_errors(form.file) }}
+                                            {{ form_widget(form.file) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12">
+                                    {{ form_label(form.mediaDescrib, 'Description') }}
+                                    {{ form_errors(form.mediaDescrib) }}
+                                    {{ form_widget(form.mediaDescrib) }}
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="text-align: center !important;">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                                <input type="submit"  name="ajouter" value="Ajouter" class="btn btn-primary">
+                            </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    $(function () { 
+        var maxL = 350;  
+        $('.apercutxt').each(function (i, div) {
+        
+        var text = $(div).text();
+        if(text.length > maxL) {
+            
+            var begin = text.substr(0, maxL),
+            end = text.substr(maxL);
+
+            $(div).html(begin)
+            .append($('<span class="readmore"/>').attr('title', 'Cliquer sur le titre pour lire la suite.').html('&nbsp;[...]'))                          
+        }     
+        });                    
+    })
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            $(".img-new").change(function(){
+                readNewURL(this);
+            });    
+        }); 
+
+        function readNewURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img-ava').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    </script>
+{% endblock %}

@@ -1,0 +1,9 @@
+admin_equipe_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:Equipe:edit" }
+    methods:  [GET, POST]
+
+admin_equipe_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:Equipe:delete" }
+    methods:  DELETE

@@ -1,0 +1,24 @@
+# info_index:
+#     path:     /
+#     defaults: { _controller: "CoreBundle:Info:index" }
+#     methods:  GET
+
+# info_show:
+#     path:     /{id}/show
+#     defaults: { _controller: "CoreBundle:Info:show" }
+#     methods:  GET
+
+# info_new:
+#     path:     /new
+#     defaults: { _controller: "CoreBundle:Info:new" }
+#     methods:  [GET, POST]
+
+admin_info_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:Info:edit" }
+    methods:  [GET, POST]
+
+# info_delete:
+#     path:     /{id}/delete
+#     defaults: { _controller: "CoreBundle:Info:delete" }
+#     methods:  DELETE
