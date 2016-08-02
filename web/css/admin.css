@@ -1,0 +1,115 @@
+/*ADMIN======================================================================*/
+/*Global*/
+
+.btn-modif{
+	float:right; 
+	margin-top:10px;
+}
+.btn-modif li{
+	display: inline-block;
+}
+
+.heading-title{
+	height:55px;
+}
+
+/*Slider*/
+.info-cont{
+	min-height: 230px;
+}
+
+.apercu {
+    max-height: 200px;
+    max-width: 100%;
+    height: auto;
+}
+.valide {
+	margin-top:15px;
+	margin-bottom:15px;
+}
+.catform {
+	margin-top:15px;
+}
+.apercutable {
+}
+.line9{
+	min-width:100px;
+	height:20px;
+	padding:2px;
+}
+.line9b{
+	height:10px;
+	padding-left:20px;
+	padding-right:20px;
+}
+.lPhoto{
+	display:block;
+}
+.edit-titre input{
+	width:100%;
+}
+.edit-ckeditor{
+	margin-top: 10px;	
+}
+.edit-footer{
+	margin-top: 10px;
+}
+.edit-footer li{
+	display: inline-block;
+	text-decoration: none;
+}
+.edit-footer .btn{
+	width: 100px;
+	margin: 5px;
+}
+
+@media (min-width: 768px){
+	.modal-news-slide .modal-dialog {
+	    width: 70%;
+	}
+}
+
+.modal-news-slide .modal-dialog .modal-body input, .modal-news-slide .modal-dialog .modal-body textarea{
+    width: 100%;
+}
+.modal-news-slide .modal-dialog .modal-body textarea{
+    height: 300px;
+}
+
+/*CC*/
+
+.cont-visio{	
+	height: calc(100vh - 375px);
+    overflow: hidden;
+    padding: 0 18px;
+}
+.visio{
+	overflow-y: scroll;
+    height: 100%;
+    padding: 10px 0px;
+}
+.cont-visio h5{	
+	font-weight: 800;
+}
+.visio{
+	overflow-y: scroll;
+    height: 100%;
+    padding: 10px 0px;
+}
+.visio h5{
+	text-align: center;
+}
+.apercucc {	
+    position: relative;
+    width: 80%;
+    margin: 0 10%;
+}
+.cont-infog{
+	width:100%;
+	height: 200px;
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+.cont-infog img{
+	width: 100%;
+}
