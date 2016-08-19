@@ -33,6 +33,6 @@ core_media:
     methods:  GET
 
 core_commun:
-    path:     /communautes
+    path:     /communaute
     defaults: { _controller: "CoreBundle:Core:commun" }
     methods:  GET
